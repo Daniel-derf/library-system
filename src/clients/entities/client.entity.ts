@@ -1,4 +1,4 @@
-export class Client {
+export default class Client {
   cpf: string;
   name: string;
   books: number[];
