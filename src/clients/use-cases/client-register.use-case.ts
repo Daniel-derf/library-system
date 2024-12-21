@@ -1,16 +1,15 @@
 import IClientRepository from '../repositories/client.interface.repository';
 import { CreateClientDto } from '../dto/create-client.dto';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
 
 @Injectable()
 export default class ClientRegisterUseCase {
-  private clientRepository: IClientRepository;
-
-  constructor(clientRepository: IClientRepository) {
-    this.clientRepository = clientRepository;
-  }
+  constructor(
+    @Inject('ClientRepository')
+    private readonly clientRepository: IClientRepository,
+  ) {}
 
   async execute(createClientDto: CreateClientDto) {
-    await this.clientRepository.create(createClientDto);
+    return await this.clientRepository.create(createClientDto);
   }
 }

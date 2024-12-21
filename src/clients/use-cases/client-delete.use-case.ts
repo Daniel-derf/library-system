@@ -1,15 +1,14 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import IClientRepository from '../repositories/client.interface.repository';
 
 @Injectable()
 export default class ClientDeleteUseCase {
-  private clientRepository: IClientRepository;
-
-  constructor(clientRepository: IClientRepository) {
-    this.clientRepository = clientRepository;
-  }
+  constructor(
+    @Inject('ClientRepository')
+    private readonly clientRepository: IClientRepository,
+  ) {}
 
   async execute(clientCPF: string) {
-    await this.clientRepository.delete(clientCPF);
+    return await this.clientRepository.delete(clientCPF);
   }
 }

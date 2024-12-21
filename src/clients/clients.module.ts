@@ -14,6 +14,10 @@ import ClientFindOneUseCase from './use-cases/client-find-one.use-case';
   providers: [
     ClientsService,
     // repositories
+    {
+      provide: 'ClientRepository',
+      useClass: ClientInMemoryRepository,
+    },
     ClientInMemoryRepository,
 
     // use cases

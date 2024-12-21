@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Inject,
 } from '@nestjs/common';
 
 import { CreateClientDto } from './dto/create-client.dto';
@@ -20,14 +21,23 @@ import ClientRegisterUseCase from './use-cases/client-register.use-case';
 
 @Controller('clients')
 export class ClientsController {
-  constructor(
-    private readonly registerClientUseCase: ClientRegisterUseCase,
-    private readonly deleteClientUseCase: ClientDeleteUseCase,
-    private readonly findAllClientsUseCase: ClientFindAllUseCase,
-    private readonly findOneClientUseCase: ClientFindOneUseCase,
-    private readonly returnClientBorrowedBookUseCase: ClientReturnBorrowedBookUseCase,
-    private readonly borrowBookClientUseCase: ClientBorrowBookUseCase,
-  ) {}
+  @Inject(ClientRegisterUseCase)
+  private readonly registerClientUseCase: ClientRegisterUseCase;
+
+  @Inject(ClientDeleteUseCase)
+  private readonly deleteClientUseCase: ClientDeleteUseCase;
+
+  @Inject(ClientFindAllUseCase)
+  private readonly findAllClientsUseCase: ClientFindAllUseCase;
+
+  @Inject(ClientFindOneUseCase)
+  private readonly findOneClientUseCase: ClientFindOneUseCase;
+
+  @Inject(ClientReturnBorrowedBookUseCase)
+  private readonly returnClientBorrowedBookUseCase: ClientReturnBorrowedBookUseCase;
+
+  @Inject(ClientBorrowBookUseCase)
+  private readonly borrowBookClientUseCase: ClientBorrowBookUseCase;
 
   @Post()
   register(@Body() createClientDto: CreateClientDto) {

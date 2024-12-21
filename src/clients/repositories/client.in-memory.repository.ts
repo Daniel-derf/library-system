@@ -8,8 +8,9 @@ import { Injectable } from '@nestjs/common';
 export default class ClientInMemoryRepository implements IClientRepository {
   private clients: Client[] = [];
 
-  constructor(clients: Client[] = []) {
-    this.clients = clients;
+  constructor() {
+    // Inicialize o array dentro da classe
+    this.clients = [];
   }
 
   findOne(clientCPF: string): Promise<Client> {
@@ -17,7 +18,7 @@ export default class ClientInMemoryRepository implements IClientRepository {
       const client = this.clients.find((c) => c.cpf === clientCPF);
 
       if (client) resolve(client);
-      else reject(new Error('Client not found'));
+      else return reject(new Error('Client not found'));
     });
   }
 
@@ -33,7 +34,8 @@ export default class ClientInMemoryRepository implements IClientRepository {
         (c) => c.cpf === createClientDto.cpf,
       );
 
-      if (clientAlreadyExists) reject(new Error('Client already exists'));
+      if (clientAlreadyExists)
+        return reject(new Error('Client already exists'));
 
       const newClient = new Client(createClientDto.cpf, createClientDto.name);
 
@@ -45,7 +47,7 @@ export default class ClientInMemoryRepository implements IClientRepository {
     return new Promise((resolve, reject) => {
       const clientIdx = this.clients.findIndex((c) => c.cpf === clientCPF);
 
-      if (clientIdx == -1) reject(new Error('Client does not exist'));
+      if (clientIdx == -1) return reject(new Error('Client does not exist'));
 
       const client = this.clients[clientIdx];
 
@@ -66,7 +68,7 @@ export default class ClientInMemoryRepository implements IClientRepository {
     return new Promise((resolve, reject) => {
       const clientIdx = this.clients.findIndex((c) => c.cpf === clientCPF);
 
-      if (clientIdx == -1) reject(new Error('Client does not exist'));
+      if (clientIdx == -1) return reject(new Error('Client does not exist'));
 
       this.clients = this.clients.filter((c) => c.cpf !== clientCPF);
 

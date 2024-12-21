@@ -1,11 +1,12 @@
 import IClientRepository from '../repositories/client.interface.repository';
+import { Inject, Injectable } from '@nestjs/common';
 
+Injectable();
 export default class ClientBorrowBookUseCase {
-  private clientRepository: IClientRepository;
-
-  constructor(clientRepository: IClientRepository) {
-    this.clientRepository = clientRepository;
-  }
+  constructor(
+    @Inject('ClientRepository')
+    private readonly clientRepository: IClientRepository,
+  ) {}
 
   async execute(clientCPF: string, bookId: number) {
     const client = await this.clientRepository.findOne(clientCPF);
@@ -16,7 +17,7 @@ export default class ClientBorrowBookUseCase {
 
     client.borrowBook(bookId);
 
-    await this.clientRepository.update(clientCPF, {
+    return await this.clientRepository.update(clientCPF, {
       books: client.books,
     });
   }
