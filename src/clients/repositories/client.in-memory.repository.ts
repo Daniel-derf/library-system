@@ -40,6 +40,8 @@ export default class ClientInMemoryRepository implements IClientRepository {
       const newClient = new Client(createClientDto.cpf, createClientDto.name);
 
       this.clients.push(newClient);
+
+      resolve(newClient);
     });
   }
 
