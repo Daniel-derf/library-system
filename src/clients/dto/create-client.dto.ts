@@ -1,1 +1,5 @@
-export class CreateClientDto {}
+export class CreateClientDto {
+  cpf: string;
+  name: string;
+  books: number[];
+}

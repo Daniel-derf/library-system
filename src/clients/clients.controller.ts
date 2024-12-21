@@ -1,34 +1,47 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { ClientsService } from './clients.service';
 import { CreateClientDto } from './dto/create-client.dto';
 import { UpdateClientDto } from './dto/update-client.dto';
 
+interface IUseCase {
+  execute(arg?);
+}
+
 @Controller('clients')
 export class ClientsController {
-  constructor(private readonly clientsService: ClientsService) {}
+  private readonly registerClientUseCase: IUseCase;
+  private readonly findAllClientsUseCase: IUseCase;
+  private readonly borrowBookUseCase: IUseCase;
+  private readonly findOneClientUseCase: IUseCase;
+  private readonly returnBorrowedBookUseCase: IUseCase;
+  private readonly deleteClientUseCase: IUseCase;
 
   @Post()
-  create(@Body() createClientDto: CreateClientDto) {
-    return this.clientsService.create(createClientDto);
+  register(@Body() createClientDto: CreateClientDto) {
+    return this.registerClientUseCase.execute(createClientDto);
   }
 
   @Get()
   findAll() {
-    return this.clientsService.findAll();
+    return this.findAllClientsUseCase.execute();
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.clientsService.findOne(+id);
+    return this.findOneClientUseCase.execute();
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateClientDto: UpdateClientDto) {
-    return this.clientsService.update(+id, updateClientDto);
-  }
+  @Patch(':id/books')
+  update(@Param('id') id: string, @Body() updateClientDto: UpdateClientDto) {}
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.clientsService.remove(+id);
-  }
+  remove(@Param('id') id: string) {}
 }
