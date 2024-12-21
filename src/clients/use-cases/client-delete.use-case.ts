@@ -1,6 +1,8 @@
+import { Injectable } from '@nestjs/common';
 import IClientRepository from '../repositories/client.interface.repository';
 
-export default class ClientBorrowBookUseCase {
+@Injectable()
+export default class ClientDeleteUseCase {
   private clientRepository: IClientRepository;
 
   constructor(clientRepository: IClientRepository) {

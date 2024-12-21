@@ -1,5 +1,7 @@
+import { Injectable } from '@nestjs/common';
 import IClientRepository from '../repositories/client.interface.repository';
 
+@Injectable()
 export default class ClientFindOneUseCase {
   private clientRepository: IClientRepository;
 

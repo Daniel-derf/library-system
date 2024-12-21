@@ -1,7 +1,9 @@
 import IClientRepository from '../repositories/client.interface.repository';
 import { CreateClientDto } from '../dto/create-client.dto';
+import { Injectable } from '@nestjs/common';
 
-export default class ClientBorrowBookUseCase {
+@Injectable()
+export default class ClientRegisterUseCase {
   private clientRepository: IClientRepository;
 
   constructor(clientRepository: IClientRepository) {
