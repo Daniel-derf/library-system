@@ -7,17 +7,16 @@ export default class ClientBorrowBookUseCase {
     this.clientRepository = clientRepository;
   }
 
-  async execute(clientCpf: string, bookId: number) {
-    const client = await this.clientRepository.findOne(clientCpf);
+  async execute(clientCPF: string, bookId: number) {
+    const client = await this.clientRepository.findOne(clientCPF);
 
     if (!client) {
-      throw new Error(`Client with CPF ${clientCpf} not found.`);
+      throw new Error(`Client with CPF ${clientCPF} not found.`);
     }
 
     client.borrowBook(bookId);
 
-    await this.clientRepository.update(clientCpf, {
-      name: client.name,
+    await this.clientRepository.update(clientCPF, {
       books: client.books,
     });
   }
