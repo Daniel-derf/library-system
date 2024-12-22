@@ -10,7 +10,9 @@ export default class ClientRegisterUseCase {
   ) {}
 
   async execute(createClientDto: CreateClientDto) {
-    this.clientRepository.findOne(createClientDto.cpf);
+    const clientExists = this.clientRepository.findOne(createClientDto.cpf);
+
+    if (clientExists) throw new Error('Client already exists!');
 
     return await this.clientRepository.create(createClientDto);
   }
