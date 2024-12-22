@@ -9,58 +9,45 @@ export default class ClientInMemoryRepository implements IClientRepository {
   private clients: Client[] = [];
 
   constructor() {
-    // Inicialize o array dentro da classe
     this.clients = [];
   }
 
-  findOne(clientCPF: string): Promise<Client> {
-    return new Promise((resolve, reject) => {
-      const client = this.clients.find((c) => c.cpf === clientCPF);
+  async findOne(clientCPF: string): Promise<Client> {
+    const client = this.clients.find((c) => c.cpf === clientCPF);
 
-      if (client) resolve(client);
-      else return reject(undefined);
-    });
+    return client;
   }
 
-  findAll(): Promise<Client[]> {
-    return new Promise((resolve) => {
-      resolve(this.clients);
-    });
+  async findAll(): Promise<Client[]> {
+    return this.clients;
   }
 
-  create(createClientDto: CreateClientDto): Promise<Client> {
-    return new Promise((resolve, reject) => {
-      const newClient = new Client(createClientDto.cpf, createClientDto.name);
-
-      this.clients.push(newClient);
-
-      resolve(newClient);
-    });
+  async create(createClientDto: CreateClientDto): Promise<Client> {
+    const newClient = new Client(createClientDto.cpf, createClientDto.name);
+    this.clients.push(newClient);
+    return newClient;
   }
 
-  update(clientCPF: string, updateClientDto: UpdateClientDto): Promise<Client> {
-    return new Promise((resolve, reject) => {
-      const clientIdx = this.clients.findIndex((c) => c.cpf === clientCPF);
-      const client = this.clients[clientIdx];
+  async update(
+    clientCPF: string,
+    updateClientDto: UpdateClientDto,
+  ): Promise<Client> {
+    const clientIdx = this.clients.findIndex((c) => c.cpf === clientCPF);
 
-      if (updateClientDto.name !== undefined) {
-        client.name = updateClientDto.name;
-      }
-      if (updateClientDto.books !== undefined) {
-        client.books = updateClientDto.books;
-      }
+    const client = this.clients[clientIdx];
 
-      this.clients[clientIdx] = client;
+    if (updateClientDto.name) {
+      client.name = updateClientDto.name;
+    }
+    if (updateClientDto.books) {
+      client.books = updateClientDto.books;
+    }
 
-      resolve(client);
-    });
+    this.clients[clientIdx] = client;
+    return client;
   }
 
-  delete(clientCPF: string): Promise<void> {
-    return new Promise((resolve, reject) => {
-      this.clients = this.clients.filter((c) => c.cpf !== clientCPF);
-
-      resolve(null);
-    });
+  async delete(clientCPF: string): Promise<void> {
+    this.clients = this.clients.filter((c) => c.cpf !== clientCPF);
   }
 }

@@ -1,5 +1,5 @@
 import IClientRepository from '../repositories/client.interface.repository';
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 
 Injectable();
 export default class ClientBorrowBookUseCase {
@@ -12,7 +12,7 @@ export default class ClientBorrowBookUseCase {
     const client = await this.clientRepository.findOne(clientCPF);
 
     if (!client) {
-      throw new Error(`Client with CPF ${clientCPF} not found.`);
+      throw new NotFoundException(`Client with CPF ${clientCPF} not found.`);
     }
 
     client.borrowBook(bookId);
