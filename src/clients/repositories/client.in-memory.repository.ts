@@ -18,7 +18,7 @@ export default class ClientInMemoryRepository implements IClientRepository {
       const client = this.clients.find((c) => c.cpf === clientCPF);
 
       if (client) resolve(client);
-      else return reject(new Error('Client not found'));
+      else return reject(undefined);
     });
   }
 
@@ -30,13 +30,6 @@ export default class ClientInMemoryRepository implements IClientRepository {
 
   create(createClientDto: CreateClientDto): Promise<Client> {
     return new Promise((resolve, reject) => {
-      const clientAlreadyExists = this.clients.find(
-        (c) => c.cpf === createClientDto.cpf,
-      );
-
-      if (clientAlreadyExists)
-        return reject(new Error('Client already exists'));
-
       const newClient = new Client(createClientDto.cpf, createClientDto.name);
 
       this.clients.push(newClient);
@@ -48,9 +41,6 @@ export default class ClientInMemoryRepository implements IClientRepository {
   update(clientCPF: string, updateClientDto: UpdateClientDto): Promise<Client> {
     return new Promise((resolve, reject) => {
       const clientIdx = this.clients.findIndex((c) => c.cpf === clientCPF);
-
-      if (clientIdx == -1) return reject(new Error('Client does not exist'));
-
       const client = this.clients[clientIdx];
 
       if (updateClientDto.name !== undefined) {
@@ -68,10 +58,6 @@ export default class ClientInMemoryRepository implements IClientRepository {
 
   delete(clientCPF: string): Promise<void> {
     return new Promise((resolve, reject) => {
-      const clientIdx = this.clients.findIndex((c) => c.cpf === clientCPF);
-
-      if (clientIdx == -1) return reject(new Error('Client does not exist'));
-
       this.clients = this.clients.filter((c) => c.cpf !== clientCPF);
 
       resolve(null);

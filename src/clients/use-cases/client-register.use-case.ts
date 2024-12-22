@@ -10,6 +10,8 @@ export default class ClientRegisterUseCase {
   ) {}
 
   async execute(createClientDto: CreateClientDto) {
+    this.clientRepository.findOne(createClientDto.cpf);
+
     return await this.clientRepository.create(createClientDto);
   }
 }
