@@ -9,6 +9,10 @@ export default class ClientDeleteUseCase {
   ) {}
 
   async execute(clientCPF: string) {
+    const clientExists = await this.clientRepository.findOne(clientCPF);
+
+    if (!clientExists) throw new Error('Client does not exist');
+
     return await this.clientRepository.delete(clientCPF);
   }
 }
