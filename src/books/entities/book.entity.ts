@@ -1,3 +1,5 @@
+import { CreateBookDto } from '../dto/create-book.dto';
+
 export class Book {
   id: number;
   name: string;
@@ -6,21 +8,21 @@ export class Book {
   category: string;
   availableExemplars: number;
 
-  constructor(bookData) {
-    if (bookData.pages < 1) {
+  constructor(bookDto: CreateBookDto) {
+    if (bookDto.pages < 1) {
       throw new Error('The number of pages must be at least 1');
     }
 
-    if (bookData.availableExemplars < 0) {
+    if (bookDto.availableExemplars < 0) {
       throw new Error('Available exemplars cannot be negative');
     }
 
-    this.id = bookData.id;
-    this.name = bookData.name;
-    this.author = bookData.author;
-    this.pages = bookData.pages;
-    this.category = bookData.category;
-    this.availableExemplars = bookData.availableExemplars;
+    this.id = bookDto.id;
+    this.name = bookDto.name;
+    this.author = bookDto.author;
+    this.pages = bookDto.pages;
+    this.category = bookDto.category;
+    this.availableExemplars = bookDto.availableExemplars;
   }
 
   isAvailable(): boolean {

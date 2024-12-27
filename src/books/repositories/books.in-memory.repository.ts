@@ -5,6 +5,8 @@ export default class InMemoryBooksRepository implements IBooksRepository {
   private books: Book[] = [];
 
   async save(book: Book): Promise<void> {
+    if (!book.id) book.id = this.books.length + 1;
+
     this.books.push(book);
   }
 
