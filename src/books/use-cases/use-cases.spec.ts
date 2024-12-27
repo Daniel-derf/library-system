@@ -5,6 +5,7 @@ import InMemoryBooksRepository from '../repositories/books.in-memory.repository'
 
 import DecreaseAvailableExamplarsUseCase from './decrease-available-examplars.use-case';
 import IncreaseAvailableExamplarsUseCase from './increase-available-examplars.use-case';
+import RegisterNewBookUseCase from './register-new-book.use-case';
 import { CreateBookDto } from '../dto/create-book.dto';
 
 describe('Book Entity', () => {
@@ -20,6 +21,18 @@ describe('Book Entity', () => {
 
   beforeEach(() => {
     booksRepository = new InMemoryBooksRepository();
+  });
+
+  it('should register a new book', async () => {
+    const bookDto = createBookDto;
+
+    const registerUseCase = new RegisterNewBookUseCase(booksRepository);
+
+    await registerUseCase.execute(bookDto);
+
+    const dbOutput = await booksRepository.findById(1);
+
+    expect(dbOutput.id).toBeDefined();
   });
 
   it('should increase available books exemplars', async () => {
