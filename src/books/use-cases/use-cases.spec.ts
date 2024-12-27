@@ -10,7 +10,7 @@ import { CreateBookDto } from '../dto/create-book.dto';
 describe('Book Entity', () => {
   let booksRepository: IBooksRepository;
   const createBookDto: CreateBookDto = {
-    id: 0,
+    id: null,
     name: 'metafisica',
     author: 'aristoteles',
     pages: 350,
