@@ -15,8 +15,10 @@ export default class ClientReturnBorrowedBookUseCase {
 
     client.returnBorrowedBook(bookId);
 
-    // await this.clientRepository.update(clientCPF, {
-    //   books: client.books,
-    // });
+    const book = await this.booksRepository.findById(bookId);
+    book.increaseAvailableExemplarsBy(1);
+
+    await this.clientRepository.save(client);
+    await this.booksRepository.save(book);
   }
 }
