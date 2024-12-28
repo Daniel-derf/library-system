@@ -3,11 +3,11 @@ import Client from '../entities/client.entity';
 import { Book } from 'src/books/entities/book.entity';
 
 // interfaces
-import IBooksRepository from 'src/books/repositories/books.interface.repository';
+import IBooksRepository from '../../books/repositories/books.interface.repository';
 import IClientRepository from '../repositories/client.interface.repository';
 
 // repositories
-import InMemoryBooksRepository from 'src/books/repositories/books.in-memory.repository';
+import InMemoryBooksRepository from '../../books/repositories/books.in-memory.repository';
 import InMemoryClientsRepository from '../repositories/client.in-memory.repository';
 
 // DTOs
@@ -19,6 +19,9 @@ import ClientBorrowBookUseCase from './client-borrow-book.use-case';
 import ClientDeleteUseCase from './client-delete.use-case';
 import ClientFindAllUseCase from './client-find-all.use-case';
 import ClientFindOneUseCase from './client-find-one.use-case';
+import ClientRegisterUseCase from './client-register.use-case';
+import RegisterNewBookUseCase from '../../books/use-cases/register-new-book.use-case';
+import ClientReturnBorrowedBookUseCase from './client-return-borrowed-book.use-case';
 
 describe('Book Entity', () => {
   let booksRepository: IBooksRepository;
@@ -30,10 +33,10 @@ describe('Book Entity', () => {
     author: 'aristoteles',
     pages: 350,
     category: 'filosofia',
-    availableExemplars: 0,
+    availableExemplars: 1,
   };
 
-  const CreateClientDto: CreateClientDto = {
+  const createClientDto: CreateClientDto = {
     name: 'Daniel',
     books: [],
     cpf: '54657948873',
@@ -44,15 +47,98 @@ describe('Book Entity', () => {
     clientsRepository = new InMemoryClientsRepository();
   });
 
-  it('should register a new client', async () => {});
+  it('should register a new client', async () => {
+    const useCase = new ClientRegisterUseCase(clientsRepository);
 
-  it('should find one client', async () => {});
+    await useCase.execute(createClientDto);
 
-  it('should get all clients', async () => {});
+    const client = await clientsRepository.findById(createClientDto.cpf);
 
-  it('should borrow a book to a client', async () => {});
+    expect(client.cpf).toBeDefined();
+  });
 
-  it('should return a client borrowed book', async () => {});
+  it('should find one client', async () => {
+    const createUseCase = new ClientRegisterUseCase(clientsRepository);
+    createUseCase.execute(createClientDto);
 
-  it('should delete a client', async () => {});
+    const findOneUseCase = new ClientFindOneUseCase(clientsRepository);
+    const client = await findOneUseCase.execute(createClientDto.cpf);
+
+    expect(client.cpf).toBeDefined();
+  });
+
+  it('should get all clients', async () => {
+    const createUseCase = new ClientRegisterUseCase(clientsRepository);
+    await createUseCase.execute(createClientDto);
+
+    const findOneUseCase = new ClientFindAllUseCase(clientsRepository);
+    const clients = await findOneUseCase.execute();
+
+    expect(clients[0].cpf).toBeDefined();
+  });
+
+  it('should borrow a book to a client', async () => {
+    const createClientUseCase = new ClientRegisterUseCase(clientsRepository);
+    createClientUseCase.execute(createClientDto);
+
+    const createBookUseCase = new RegisterNewBookUseCase(booksRepository);
+    await createBookUseCase.execute(createBookDto);
+
+    const borrowBookUseCase = new ClientBorrowBookUseCase(
+      clientsRepository,
+      booksRepository,
+    );
+
+    await borrowBookUseCase.execute(createClientDto.cpf, 1);
+
+    const book = await booksRepository.findById(1);
+
+    const findClientCase = new ClientFindOneUseCase(clientsRepository);
+    const client = await findClientCase.execute(createClientDto.cpf);
+
+    expect(book.availableExemplars).toBe(0);
+    expect(client.books).toBe([1]);
+  });
+
+  it('should return a client borrowed book', async () => {
+    const createClientUseCase = new ClientRegisterUseCase(clientsRepository);
+    createClientUseCase.execute(createClientDto);
+
+    const createBookUseCase = new RegisterNewBookUseCase(booksRepository);
+    await createBookUseCase.execute(createBookDto);
+
+    const borrowBookUseCase = new ClientBorrowBookUseCase(
+      clientsRepository,
+      booksRepository,
+    );
+
+    await borrowBookUseCase.execute(createClientDto.cpf, 1);
+
+    const book = await booksRepository.findById(1);
+
+    const findClientCase = new ClientFindOneUseCase(clientsRepository);
+    const client = await findClientCase.execute(createClientDto.cpf);
+
+    const returnBorrowedBookUseCase = new ClientReturnBorrowedBookUseCase(
+      clientsRepository,
+      booksRepository,
+    );
+
+    returnBorrowedBookUseCase.execute(createClientDto.cpf, createBookDto.id);
+
+    expect(book.availableExemplars).toBe(1);
+    expect(client.books).toBe([]);
+  });
+
+  it('should delete a client', async () => {
+    const createClientUseCase = new ClientRegisterUseCase(clientsRepository);
+    await createClientUseCase.execute(createClientDto);
+
+    const useCase = new ClientDeleteUseCase(clientsRepository);
+    await useCase.execute(createClientDto.cpf);
+
+    const client = await clientsRepository.findById(createClientDto.cpf);
+
+    expect(client).toBeNull();
+  });
 });

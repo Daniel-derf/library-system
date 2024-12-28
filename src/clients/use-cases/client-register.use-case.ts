@@ -10,12 +10,12 @@ export default class ClientRegisterUseCase {
   ) {}
 
   async execute(createClientDto: CreateClientDto) {
-    const clientExists = await this.clientRepository.findOne(
+    const clientExists = await this.clientRepository.findById(
       createClientDto.cpf,
     );
 
     if (clientExists) throw new ConflictException('Client already exists!');
 
-    return await this.clientRepository.create(createClientDto);
+    // return await this.clientRepository.create(createClientDto);
   }
 }

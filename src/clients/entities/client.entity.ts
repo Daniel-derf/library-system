@@ -3,10 +3,18 @@ export default class Client {
   name: string;
   books: number[];
 
-  constructor(cpf: string, name: string) {
+  constructor({
+    cpf,
+    name,
+    books,
+  }: {
+    cpf: string;
+    name: string;
+    books?: number[];
+  }) {
     this.cpf = cpf;
     this.name = name;
-    this.books = [];
+    books ? (this.books = books) : (this.books = []);
   }
 
   borrowBook(bookId: number): void {

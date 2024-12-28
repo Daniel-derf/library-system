@@ -9,7 +9,7 @@ export default class ClientFindOneUseCase {
   ) {}
 
   async execute(clientCPF: string) {
-    const client = await this.clientRepository.findOne(clientCPF);
+    const client = await this.clientRepository.findById(clientCPF);
     return client;
   }
 }
