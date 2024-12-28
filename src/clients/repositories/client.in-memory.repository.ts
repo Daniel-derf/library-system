@@ -7,7 +7,7 @@ export default class InMemoryClientsRepository implements IClientRepository {
   async save(client: Client): Promise<void> {
     const idx = this.clients.findIndex((b) => b.cpf === client.cpf);
 
-    if (idx) {
+    if (idx !== -1) {
       this.clients[idx] = client;
       return;
     }

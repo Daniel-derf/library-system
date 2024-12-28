@@ -1,6 +1,7 @@
 import IClientRepository from '../repositories/client.interface.repository';
 import { CreateClientDto } from '../dto/create-client.dto';
 import { Injectable, Inject, ConflictException } from '@nestjs/common';
+import Client from '../entities/client.entity';
 
 @Injectable()
 export default class ClientRegisterUseCase {
@@ -16,6 +17,8 @@ export default class ClientRegisterUseCase {
 
     if (clientExists) throw new ConflictException('Client already exists!');
 
-    // return await this.clientRepository.create(createClientDto);
+    const client = new Client(createClientDto);
+
+    await this.clientRepository.save(client);
   }
 }
