@@ -2,6 +2,6 @@ import Client from '../entities/client.entity';
 
 export default interface IClientRepository {
   save(client: Client): Promise<void>;
-  findById(clientId: number): Promise<Client>;
+  findById(clientCpf: string): Promise<Client>;
   findAll(): Promise<Client[]>;
 }

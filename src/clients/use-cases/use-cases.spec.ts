@@ -8,7 +8,7 @@ import IClientRepository from '../repositories/client.interface.repository';
 
 // repositories
 import InMemoryBooksRepository from 'src/books/repositories/books.in-memory.repository';
-import ClientInMemoryRepository from '../repositories/client.in-memory.repository';
+import InMemoryClientsRepository from '../repositories/client.in-memory.repository';
 
 // DTOs
 import { CreateBookDto } from 'src/books/dto/create-book.dto';
@@ -33,8 +33,15 @@ describe('Book Entity', () => {
     availableExemplars: 0,
   };
 
+  const CreateClientDto: CreateClientDto = {
+    name: 'Daniel',
+    books: [],
+    cpf: '54657948873',
+  };
+
   beforeEach(() => {
     booksRepository = new InMemoryBooksRepository();
+    clientsRepository = new InMemoryClientsRepository();
   });
 
   it('should register a new client', async () => {});

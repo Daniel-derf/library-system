@@ -1,13 +1,11 @@
 export default class Client {
-  id: number;
   cpf: string;
   name: string;
   books: number[];
 
-  constructor(cpf: string, name: string, id: number) {
+  constructor(cpf: string, name: string) {
     this.cpf = cpf;
     this.name = name;
-    this.id = id;
     this.books = [];
   }
 
