@@ -105,22 +105,19 @@ describe('Book Entity', () => {
     const book = await booksRepository.findById(1);
     const client = await clientsRepository.findById(createClientDto.cpf);
 
-    console.log('book: ', book);
-    console.log('client: ', client);
-
     const borrowBookUseCase = new ClientBorrowBookUseCase(
       clientsRepository,
       booksRepository,
     );
 
-    await borrowBookUseCase.execute(createClientDto.cpf, 1);
+    await borrowBookUseCase.execute(client.cpf, 1);
 
     const returnBorrowedBookUseCase = new ClientReturnBorrowedBookUseCase(
       clientsRepository,
       booksRepository,
     );
 
-    await returnBorrowedBookUseCase.execute(createClientDto.cpf, book.id);
+    await returnBorrowedBookUseCase.execute(client.cpf, book.id);
 
     expect(book.availableExemplars).toEqual(1);
     expect(client.books).toEqual([]);

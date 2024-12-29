@@ -3,21 +3,15 @@ export default class Client {
   name: string;
   books: number[];
 
-  constructor({
-    cpf,
-    name,
-    books,
-  }: {
-    cpf: string;
-    name: string;
-    books?: number[];
-  }) {
+  constructor({ cpf, name }: { cpf: string; name: string }) {
     this.cpf = cpf;
     this.name = name;
-    books ? (this.books = books) : (this.books = []);
+    this.books = [];
   }
 
   borrowBook(bookId: number): void {
+    console.log(`this.books: ${this.books}`);
+
     if (this.books.includes(bookId)) {
       throw new Error(
         `Book with ID ${bookId} is already borrowed by this client`,
