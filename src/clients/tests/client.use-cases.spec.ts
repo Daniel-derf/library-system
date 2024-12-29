@@ -35,7 +35,7 @@ describe('Book Entity', () => {
   const createClientDto: CreateClientDto = {
     name: 'Daniel',
     books: [],
-    cpf: '54657948873',
+    cpf: '54757348873',
   };
 
   beforeEach(() => {

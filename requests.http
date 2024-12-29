@@ -1,0 +1,21 @@
+
+POST http://localhost:3000/clients HTTP/1.1
+content-type: application/json
+
+{
+    "name": "Daniel",
+    "cpf": "54757348873"
+}
+
+###
+
+POST http://localhost:3000/books HTTP/1.1
+content-type: application/json
+
+{
+  "name": "metafisica",
+  "author": "aristoteles",
+  "pages": 350,
+  "category": "filosofia",
+  "availableExemplars": 0
+}
