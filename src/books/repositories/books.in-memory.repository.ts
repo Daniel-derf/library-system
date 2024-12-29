@@ -4,6 +4,10 @@ import IBooksRepository from './books.interface.repository';
 export default class InMemoryBooksRepository implements IBooksRepository {
   private books: Book[] = [];
 
+  constructor() {
+    this.books = [];
+  }
+
   async save(book: Book): Promise<void> {
     if (book.id) {
       const idx = this.books.findIndex((b) => b.id === book.id);

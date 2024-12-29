@@ -30,7 +30,6 @@ export default class Client {
   }
 
   returnBorrowedBook(bookId: number): void {
-    console.log('books: ', this.books);
     if (!this.books.includes(bookId)) {
       throw new Error(`Book with ID ${bookId} was not borrowed by this client`);
     }

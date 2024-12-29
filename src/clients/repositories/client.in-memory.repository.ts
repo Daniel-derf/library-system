@@ -22,4 +22,8 @@ export default class InMemoryClientsRepository implements IClientRepository {
   async findAll(): Promise<Client[]> {
     return this.clients;
   }
+
+  async delete(clientCpf: string): Promise<void> {
+    this.clients = this.clients.filter((c) => c.cpf !== clientCpf);
+  }
 }

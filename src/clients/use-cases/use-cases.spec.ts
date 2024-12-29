@@ -51,6 +51,7 @@ describe('Book Entity', () => {
     const client = await clientsRepository.findById(createClientDto.cpf);
 
     expect(client.cpf).toBeDefined();
+    expect(client.books).toEqual([]);
   });
 
   it('should find one client', async () => {
@@ -101,6 +102,12 @@ describe('Book Entity', () => {
     const createBookUseCase = new RegisterNewBookUseCase(booksRepository);
     await createBookUseCase.execute(createBookDto);
 
+    const book = await booksRepository.findById(1);
+    const client = await clientsRepository.findById(createClientDto.cpf);
+
+    console.log('book: ', book);
+    console.log('client: ', client);
+
     const borrowBookUseCase = new ClientBorrowBookUseCase(
       clientsRepository,
       booksRepository,
@@ -113,10 +120,7 @@ describe('Book Entity', () => {
       booksRepository,
     );
 
-    const book = await booksRepository.findById(1);
-    const client = await clientsRepository.findById(createClientDto.cpf);
-
-    returnBorrowedBookUseCase.execute(createClientDto.cpf, book.id);
+    await returnBorrowedBookUseCase.execute(createClientDto.cpf, book.id);
 
     expect(book.availableExemplars).toEqual(1);
     expect(client.books).toEqual([]);
@@ -131,6 +135,6 @@ describe('Book Entity', () => {
 
     const client = await clientsRepository.findById(createClientDto.cpf);
 
-    expect(client).toBeNull();
+    expect(client).toBeUndefined();
   });
 });

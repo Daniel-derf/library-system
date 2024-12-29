@@ -8,11 +8,11 @@ export default class ClientDeleteUseCase {
     private readonly clientRepository: IClientRepository,
   ) {}
 
-  async execute(clientCPF: string) {
+  async execute(clientCPF: string): Promise<void> {
     const clientExists = await this.clientRepository.findById(clientCPF);
 
     if (!clientExists) throw new NotFoundException('Client does not exist');
 
-    // return await this.clientRepository.delete(clientCPF);
+    await this.clientRepository.delete(clientCPF);
   }
 }
