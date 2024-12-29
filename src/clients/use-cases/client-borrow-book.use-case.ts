@@ -9,6 +9,7 @@ export default class ClientBorrowBookUseCase {
   constructor(
     @Inject('ClientRepository')
     private readonly clientRepository: IClientRepository,
+    @Inject('BookRepository')
     private readonly booksRepository: IBooksRepository,
   ) {}
 

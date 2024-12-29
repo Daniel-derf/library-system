@@ -1,9 +1,13 @@
 import IBooksRepository from '../repositories/books.interface.repository';
 import { CreateBookDto } from '../dto/create-book.dto';
 import { Book } from '../entities/book.entity';
+import { Inject } from '@nestjs/common';
 
 export default class RegisterNewBookUseCase {
-  constructor(private readonly booksRepository: IBooksRepository) {}
+  constructor(
+    @Inject('BookRepository')
+    private readonly booksRepository: IBooksRepository,
+  ) {}
 
   async execute(dto: CreateBookDto) {
     const book = new Book(dto);

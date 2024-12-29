@@ -54,18 +54,21 @@ export class ClientsController {
     return this.findOneClientUseCase.execute(cpf);
   }
 
-  @Patch(':id/books/:bookId/borrow')
-  borrowBook(@Param('id') id: string, @Param('bookId') bookId: string) {
-    return this.borrowBookClientUseCase.execute(id, +bookId);
+  @Patch(':cpf/books/:bookId/borrow')
+  borrowBook(@Param('cpf') cpf: string, @Param('bookId') bookId: string) {
+    return this.borrowBookClientUseCase.execute(cpf, +bookId);
   }
 
-  @Patch(':id/books/:bookId/return')
-  returnBorrowedBook(@Param('id') id: string, @Param('bookId') bookId: string) {
-    return this.returnClientBorrowedBookUseCase.execute(id, +bookId);
+  @Patch(':cpf/books/:bookId/return')
+  returnBorrowedBook(
+    @Param('cpf') cpf: string,
+    @Param('bookId') bookId: string,
+  ) {
+    return this.returnClientBorrowedBookUseCase.execute(cpf, +bookId);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.deleteClientUseCase.execute(id);
+  @Delete(':cpf')
+  remove(@Param('cpf') cpf: string) {
+    return this.deleteClientUseCase.execute(cpf);
   }
 }
