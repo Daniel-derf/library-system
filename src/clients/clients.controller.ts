@@ -54,12 +54,12 @@ export class ClientsController {
     return this.findOneClientUseCase.execute(cpf);
   }
 
-  @Patch(':cpf/books/:bookId/borrow')
+  @Post(':cpf/books/:bookId/borrow')
   borrowBook(@Param('cpf') cpf: string, @Param('bookId') bookId: string) {
     return this.borrowBookClientUseCase.execute(cpf, +bookId);
   }
 
-  @Patch(':cpf/books/:bookId/return')
+  @Post(':cpf/books/:bookId/return')
   returnBorrowedBook(
     @Param('cpf') cpf: string,
     @Param('bookId') bookId: string,

@@ -1,8 +1,9 @@
 import IBooksRepository from '../repositories/books.interface.repository';
 import { CreateBookDto } from '../dto/create-book.dto';
 import { Book } from '../entities/book.entity';
-import { Inject } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 
+@Injectable()
 export default class RegisterNewBookUseCase {
   constructor(
     @Inject('BookRepository')

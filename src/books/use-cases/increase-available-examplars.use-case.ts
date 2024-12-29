@@ -1,6 +1,7 @@
 import IBooksRepository from '../repositories/books.interface.repository';
-import { Inject } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 
+@Injectable()
 export default class IncreaseAvailableExamplarsUseCase {
   constructor(
     @Inject('BookRepository')
