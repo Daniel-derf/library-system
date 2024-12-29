@@ -11,13 +11,13 @@ import { CreateBookDto } from 'src/books/dto/create-book.dto';
 import { CreateClientDto } from '../dto/create-client.dto';
 
 // use cases
-import ClientBorrowBookUseCase from './client-borrow-book.use-case';
-import ClientDeleteUseCase from './client-delete.use-case';
-import ClientFindAllUseCase from './client-find-all.use-case';
-import ClientFindOneUseCase from './client-find-one.use-case';
-import ClientRegisterUseCase from './client-register.use-case';
+import ClientBorrowBookUseCase from '../use-cases/client-borrow-book.use-case';
+import ClientDeleteUseCase from '../use-cases/client-delete.use-case';
+import ClientFindAllUseCase from '../use-cases/client-find-all.use-case';
+import ClientFindOneUseCase from '../use-cases/client-find-one.use-case';
+import ClientRegisterUseCase from '../use-cases/client-register.use-case';
 import RegisterNewBookUseCase from '../../books/use-cases/register-new-book.use-case';
-import ClientReturnBorrowedBookUseCase from './client-return-borrowed-book.use-case';
+import ClientReturnBorrowedBookUseCase from '../use-cases/client-return-borrowed-book.use-case';
 
 describe('Book Entity', () => {
   let booksRepository: IBooksRepository;
