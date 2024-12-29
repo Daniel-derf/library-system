@@ -10,8 +10,6 @@ export default class Client {
   }
 
   borrowBook(bookId: number): void {
-    console.log(`this.books: ${this.books}`);
-
     if (this.books.includes(bookId)) {
       throw new Error(
         `Book with ID ${bookId} is already borrowed by this client`,
