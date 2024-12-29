@@ -3,9 +3,9 @@ import { Book } from '../entities/book.entity';
 import IBooksRepository from '../repositories/books.interface.repository';
 import InMemoryBooksRepository from '../repositories/books.in-memory.repository';
 
-import DecreaseAvailableExamplarsUseCase from './decrease-available-examplars.use-case';
-import IncreaseAvailableExamplarsUseCase from './increase-available-examplars.use-case';
-import RegisterNewBookUseCase from './register-new-book.use-case';
+import DecreaseAvailableExamplarsUseCase from '../use-cases/decrease-available-examplars.use-case';
+import IncreaseAvailableExamplarsUseCase from '../use-cases/increase-available-examplars.use-case';
+import RegisterNewBookUseCase from '../use-cases/register-new-book.use-case';
 import { CreateBookDto } from '../dto/create-book.dto';
 
 describe('Book Entity', () => {

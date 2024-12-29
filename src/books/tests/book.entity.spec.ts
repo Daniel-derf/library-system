@@ -1,4 +1,4 @@
-import { Book } from './book.entity';
+import { Book } from '../entities/book.entity';
 
 describe('Book Entity', () => {
   let book: Book;
